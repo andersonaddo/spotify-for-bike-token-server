@@ -14,7 +14,7 @@ const app = express();
 const spClientId = process.env.SPOTIFY_CLIENT_ID;
 const spClientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const spClientCallback = process.env.SPOTIFY_CLIENT_CALLBACK;
-const authString = Buffer.from(spClientId+':'+spClientSecret).toString('base64');
+const authString = Buffer.from(spClientId + ':' + spClientSecret).toString('base64');
 const authHeader = `Basic ${authString}`;
 const spotifyEndpoint = 'https://accounts.spotify.com/api/token';
 
@@ -35,8 +35,7 @@ const decrypt = (text) => {
 };
 
 // handle sending POST request
-function postRequest(url, data={})
-{
+function postRequest(url, data = {}) {
 	return new Promise((resolve, reject) => {
 		// build request data
 		url = new URL(url);
@@ -63,32 +62,27 @@ function postRequest(url, data={})
 			res.on('end', () => {
 				// parse response
 				let result = null;
-				try
-				{
+				try {
 					result = Buffer.concat(buffers);
 					result = result.toString();
 					var contentType = res.headers['content-type'];
-					if(typeof contentType == 'string')
-					{
+					if (typeof contentType == 'string') {
 						contentType = contentType.split(';')[0].trim();
 					}
-					if(contentType == 'application/x-www-form-urlencoded')
-					{
+					if (contentType == 'application/x-www-form-urlencoded') {
 						result = QueryString.parse(result);
 					}
-					else if(contentType == 'application/json')
-					{
+					else if (contentType == 'application/json') {
 						result = JSON.parse(result);
 					}
 				}
-				catch(error)
-				{
+				catch (error) {
 					error.response = res;
 					error.data = result;
 					reject(error);
 					return;
 				}
-				resolve({response: res, result: result});
+				resolve({ response: res, result: result });
 			})
 		});
 
@@ -105,7 +99,7 @@ function postRequest(url, data={})
 }
 
 // support form body
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 /**
  * Swap endpoint
@@ -132,14 +126,14 @@ app.post('/swap', async (req, res) => {
 		// send response
 		res.status(response.statusCode).json(result);
 	}
-	catch(error) {
-		if(error.response) {
+	catch (error) {
+		if (error.response) {
 			res.status(error.response.statusCode);
 		}
 		else {
 			res.status(500);
 		}
-		if(error.data) {
+		if (error.data) {
 			res.send(error.data);
 		}
 		else {
@@ -157,7 +151,7 @@ app.post('/refresh', async (req, res) => {
 	try {
 		// ensure refresh token parameter
 		if (!req.body.refresh_token) {
-			res.status(400).json({error: 'Refresh token is missing from body'});
+			res.status(400).json({ error: 'Refresh token is missing from body' });
 			return;
 		}
 
@@ -179,14 +173,14 @@ app.post('/refresh', async (req, res) => {
 		// send response
 		res.status(response.statusCode).json(result);
 	}
-	catch(error) {
-		if(error.response) {
+	catch (error) {
+		if (error.response) {
 			res.status(error.response.statusCode);
 		}
 		else {
 			res.status(500);
 		}
-		if(error.data) {
+		if (error.data) {
 			res.send(error.data);
 		}
 		else {
@@ -197,4 +191,4 @@ app.post('/refresh', async (req, res) => {
 
 // start server
 const spServerPort = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-app.listen(spServerPort, () => console.log('Example app listening on port '+spServerPort+'!'));
+app.listen(spServerPort, () => console.log('Spotify token server listening on port ' + spServerPort + '!'));
