@@ -1,4 +1,5 @@
-// npm deps
+
+const functions = require("firebase-functions");
 const express = require('express');
 const https = require('https');
 const crypto = require('crypto');
@@ -189,6 +190,4 @@ app.post('/refresh', async (req, res) => {
 	}
 });
 
-// start server
-const spServerPort = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-app.listen(spServerPort, () => console.log('Spotify token server listening on port ' + spServerPort + '!'));
+exports.main = functions.https.onRequest(app);

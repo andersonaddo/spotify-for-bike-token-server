@@ -4,9 +4,7 @@ An node server capable of swapping and refreshing tokens provided by Spotify API
 
 I took this straight from [here](https://github.com/cjam/react-native-spotify-remote/tree/7f688a211080ee5d4cd302df3a478e40441c3cad/example-server) to be used with [this app](https://github.com/andersonaddo/spotify-for-bike-app).
 
-I deployed this on Heroku. Some pages that might benefit you:
-- https://devcenter.heroku.com/articles/getting-started-with-nodejs
-- https://devcenter.heroku.com/articles/deploying-nodejs
+Structured as a Firebase Functions project.
 
 ## Usage
 
@@ -24,10 +22,9 @@ SPOTIFY_CLIENT_CALLBACK="callback_registered_in_spotify_dashboard"
 ENCRYPTION_SECRET="THISWILLBEABIGSECRET"
 ENCRYPTION_METHOD="aes-256-ctr"
 ```
-Can also specify `PORT` if needed. This isn't needed if you're using Heroku.
 
-3. Run server using: `npm run start`
-4. In you the *Spotify for Bike* app set `tokenSwapURL` to `http://<SERVER_URL>:<PORT (if needed)>/swap` and `tokenRefreshURL` to `http://<SERVER_URL>:<PORT (if needed)>/refresh`, replacing `<SERVER_URL>` and `<PORT>` with your server URL and port (if needed).
+1. Run server using: `npm run start`
+2. In you the *Spotify for Bike* app set `tokenSwapURL` to `http://<SERVER_URL>/swap` and `tokenRefreshURL` to `http://<SERVER_URL>/refresh`, replacing `<SERVER_URL>` with your server URL.
 
 ## Why is this needed?
 
